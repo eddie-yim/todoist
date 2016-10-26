@@ -1,0 +1,303 @@
+body
+    display: block
+    margin: 0px
+    padding: 0px
+    background: #f6f6f6
+    color: #333
+    font: 24px Helvetica Neue
+    font-weight: lighter
+    button
+        padding: 10px
+        width: 100px
+        border: none
+        border-radius: 4px
+        background: #507cab
+        color: #fff
+        font: inherit
+        outline: none
+        text-shadow: none
+    button:hover
+        background: #446f9e
+        cursor: pointer
+    button.small
+        padding: 4px
+        width: auto
+        font-family: Arial
+        font-size: 10px
+
+    .layer_alert
+        position: fixed
+        display: none
+        width: 100%
+        height: 100%
+        vertical-align: middle
+        z-index: 1000
+        .dim
+            position: fixed
+            width: 100%
+            height: 100%
+            background-color: rgba(0, 0, 0, 0.6)
+        .message
+            position: absolute
+            left: 50%
+            top: 50%
+            margin-left: -150px
+            margin-top: -100px
+            width: 300px
+            height: 200px
+            background-color: #fff
+            border-radius: 4px
+            text-align: center
+            p
+                display: table-cell
+                margin: 5px
+                padding: 40px 20px
+                width: 250px
+                height: 70px
+                font-size: 16px
+                border-bottom: 1px solid #ebebeb
+                text-align: center
+                vertical-align: middle
+                word-break: break-all
+            span
+                display: inline-block
+                padding: 10px 0px
+                color: #446f9e
+            span:hover
+                cursor: pointer
+                color: #666
+
+
+    header
+        width: 100%
+        height: 40px
+        background: rgba(0, 0, 0, 0.1)
+        font-size: 16px
+        div
+            padding: 10px
+            span
+                margin: 10px
+    #app_title
+        margin: 30px auto 10px auto
+        width: 200px
+        text-align: center
+    #app_title
+        a
+            color: #446f9e
+            font-size: 100px
+            text-decoration: none
+    #base_wrap
+        margin: 10px auto 40px auto
+        width: 100%
+        .todo_list_wrap
+            position: relative
+            display: block
+            margin: 0 auto
+            width: 550px
+            border: 1px solid rgba(0, 0, 0, 0.08)
+            border-radius: 4px
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1)
+            background: #fff
+            .todo_input_wrap
+                padding: 0px 10px
+                [type="checkbox"]
+                    display: block
+                    float: left
+                    width: 35px
+                    height: 40px
+                    opacity: 0
+                .allcheck
+                    position: absolute
+                    display: block
+                    float: left
+                    padding: 0px
+                    margin: 20px 10px 0px 5px
+                    width: 18px
+                    height: 20px
+                    border: 1px solid transparent
+                    overflow: hidden
+                    div
+                        margin-top: -12px
+                        margin-left: -3px
+                        width: 20px
+                        height: 20px
+                        border-right: 4px solid #999
+                        border-bottom: 4px solid #999
+                        transform: rotate(35deg) skewX(-20deg)
+                .allcheck:hover
+                    cursor: pointer
+                [type="checkbox"]:checked + .allcheck > div
+                    border-color: #446f9e
+                label
+                    display: inline-block
+                    padding: 15px
+                    [type="text"]
+                          padding: 0px 0px
+                          width: 458px
+                          border: none
+                          outline: none
+                          font: inherit
+            ul
+                margin: 0px
+                padding: 0px
+                li
+                    border-top: 1px solid #ebebeb
+                    list-style: none
+                    article
+                        position: relative
+                        padding: 0px
+                        [type="checkbox"]
+                            display: block
+                            float: left
+                            width: 30px
+                            opacity: 0
+                        .check
+                            position: absolute
+                            display: block
+                            float: left
+                            margin: 10px 10px 0px 10px
+                            width: 30px
+                            height: 30px
+                            border: 1px solid #ebebeb
+                            border-radius: 30px
+                        .check:before
+                            content: ''
+                            display: block
+                            margin: 7px 0px 0px 7px
+                            width: 15px
+                            height: 10px
+                            border-left: 1px solid #ebebeb
+                            border-bottom: 1px solid #ebebeb
+                            transform: rotate(-45deg)
+                        .check:hover
+                            cursor: pointer
+                        [type="checkbox"]:checked + .check
+                            border: 1px solid #446f9e
+                        [type="checkbox"]:checked + .check:before
+                            border-left-color: #446f9e
+                            border-bottom-color: #446f9e
+                        input
+                            display: none
+                            margin-left: 14px
+                            padding: 13px 10px
+                            width: 475px
+                            font: inherit
+                            font-size: 24px
+                            outline: 1px solid #ebebeb
+                            word-break: break-all
+                        .content
+                            margin: 0px 0px 0px 50px
+                            padding: 13px
+                            width: 420px
+                            min-height: 20px
+                            background: transparent
+                            label
+                                word-break: break-all
+                        .content.completed
+                            label
+                                color: #ebebeb
+                                text-decoration: line-through
+                        .editing
+                            display: none
+                        .editing + input
+                            display: block
+                        .editing + .check:before
+                                display: none
+                        .delete
+                            position: absolute
+                            display: none
+                            right: 10px
+                            bottom: 10px
+                            width: 20px
+                            height: 20px
+                        .delete:before
+                            content: ''
+                            display: block
+                            margin-top: 10px
+                            width: 20px
+                            height: 1px
+                            background: #b83f45
+                            transform: rotate(45deg)
+                        .delete:after
+                            content: ''
+                            display: block
+                            margin-top: -1px
+                            width: 20px
+                            height: 1px
+                            background: #b83f45
+                            transform: rotate(-45deg)
+                        .delete:hover
+                            cursor: pointer
+                        .delete:hover:before, .delete:hover:after
+                            background: #E54A50
+            .todo_footer
+                padding: 10px
+                height: 16px
+                border-top: 1px solid #ebebeb
+                font-size: 12px
+                letter-spacing: 1px
+
+                #clearCompleted
+                    display: none
+                    float: right
+                #clearCompleted:hover
+                    cursor: pointer
+                    text-decoration: underline
+
+                dl
+                    position: relative
+                    margin: -20px auto 0px auto
+                    width: 170px
+                    dt, dd
+                        display: inline-block
+                        margin: 1px
+                        padding: 2px 5px
+                    dd
+                        border: 1px solid #fff
+                        border-radius: 4px
+                    dd:hover
+                        cursor: pointer
+                        border-color: #ebebeb
+                    dd.on
+                        border-color: #446f9e
+        .frm_login, .frm_join
+            margin: 0 auto
+            padding: 30px
+            width: 330px
+            background: #fff
+            font-size: 16px !important
+            div
+                margin: 0px
+                width: 330px
+                min-height: 40px
+                padding: 0px 0px 20px 0px
+            div:last-child
+                padding-bottom: 0px
+            input
+                padding: 10px
+                width: 310px
+                border: 1px solid #ebebeb
+                outline: none
+                font: inherit
+            span
+                display: inline-block
+                margin: 10px 0px 0px 5px
+                color: #446f9e
+                font-weight: 400
+            span:hover
+                text-decoration: underline
+            button
+                float: right
+            .login_error
+                display: none
+                span
+                    color: #f00
+            span.error
+                display: block
+                color: #f00
+                font-size: 12px
+        .frm_join
+            button
+                display: block
+                float: none
+                margin: 15px auto 0px auto

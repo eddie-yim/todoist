@@ -1,0 +1,13 @@
+{% for todo in todos %}
+<li data-status="{{ todo.status }}" data-id="{{ todo.id }}">
+	<article onmouseover="mouseOverTodo(this);" onmouseout="mouseOutTodo(this);">
+		<input type="checkbox" id="{{ todo.id }}" {% if todo.isCompleted %}checked{% endif %} onclick="updateTodo(this, {{ todo.id }});">
+		<label for="{{ todo.id }}" class="check"></label>
+		<p class="content {% if todo.isCompleted %}completed{% endif %}" ondblclick="editTodo(this);">
+			<label>{{ todo.content }}</label>
+		</p>
+		<input type="text" value="{{ todo.content }}" onblur="blurTodo(this);" onkeyup="editApplyTodo(this, {{ todo.id }});"/>
+		<div class="delete" onclick="deleteTodo(this, {{ todo.id }});"></div>
+	</article>
+</li>
+{% endfor %}

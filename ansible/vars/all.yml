@@ -1,0 +1,27 @@
+---
+server:
+    install: '1'
+    packages: [vim]
+    timezone: UTC
+    locale: ko_KR.UTF-8
+vagrant_local:
+    install: '1'
+    vm: { base_box: xenial32, hostname: local.practice.com, ip: 192.168.33.21, memory: '512', sharedfolder: ./, useVagrantCloud: '1', syncType: nfs }
+nginx:
+    install: '1'
+    docroot: /vagrant
+    servername: local.practice.com
+mariadb:
+    version: '10.1'
+    install: '1'
+    root_password: '123'
+    database: practice
+    user: ridi
+    password: ridicorp
+    dump: ''
+    host: localhost
+    driver: pdo_mysql
+php:
+    install: '1'
+    ppa: php
+    packages: [php7.0-cli, php7.0-intl, php7.0-mcrypt, php7.0-gd, php7.0-mysql, php7.0-yaml]

@@ -1,0 +1,57 @@
+---
+- name: Set php_executable variable to a default if not defined.
+  set_fact:
+    php_executable: php
+  when: php_executable is not defined
+
+- name: Check if composer is installed
+  stat: "path=/usr/local/bin/composer"
+  register: composer_bin
+
+- name: Download Composer Installer
+  get_url:
+    url: https://getcomposer.org/installer
+    dest: /tmp/composer-installer.php
+    mode: 0755
+  when: not composer_bin.stat.exists
+
+- name: Run Composer Installer
+  command: >
+    {{php_executable}} composer-installer.php
+    chdir=/tmp
+  when: not composer_bin.stat.exists
+
+- name: Move Composer into globally-accessible location
+  shell: >
+    mv /tmp/composer.phar /usr/local/bin/composer
+    creates=/usr/local/bin/composer
+  when: not composer_bin.stat.exists
+
+- name: Install with composer.json
+  command: composer install -d /vagrant/
+
+- name: Create Database With Doctrine Schema Tool
+  command: php vendor/bin/doctrine orm:schema-tool:update --force
+  args:
+    chdir: "/vagrant/"
+
+- name: Install Node Package Manager
+  apt: pkg={{item}} state=installed
+  with_items:
+    - nodejs
+    - npm
+
+- name: Install Bower
+  command: npm install -g bower
+
+- name: Link Nodejs
+  file:
+    src: /usr/bin/nodejs
+    dest: /usr/bin/node
+    state: link
+
+- name: Run Bower
+  become: no
+  command: bower install
+  args:
+    chdir: "/vagrant/static/"

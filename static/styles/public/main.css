@@ -1,0 +1,295 @@
+body {
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  background: #f6f6f6;
+  color: #333;
+  font: 24px Helvetica Neue;
+  font-weight: lighter; }
+  body button {
+    padding: 10px;
+    width: 100px;
+    border: none;
+    border-radius: 4px;
+    background: #507cab;
+    color: #fff;
+    font: inherit;
+    outline: none;
+    text-shadow: none; }
+  body button:hover {
+    background: #446f9e;
+    cursor: pointer; }
+  body button.small {
+    padding: 4px;
+    width: auto;
+    font-family: Arial;
+    font-size: 10px; }
+  body .layer_alert {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    z-index: 1000; }
+    body .layer_alert .dim {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6); }
+    body .layer_alert .message {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -150px;
+      margin-top: -100px;
+      width: 300px;
+      height: 200px;
+      background-color: #fff;
+      border-radius: 4px;
+      text-align: center; }
+      body .layer_alert .message p {
+        display: table-cell;
+        margin: 5px;
+        padding: 40px 20px;
+        width: 250px;
+        height: 70px;
+        font-size: 16px;
+        border-bottom: 1px solid #ebebeb;
+        text-align: center;
+        vertical-align: middle;
+        word-break: break-all; }
+      body .layer_alert .message span {
+        display: inline-block;
+        padding: 10px 0px;
+        color: #446f9e; }
+      body .layer_alert .message span:hover {
+        cursor: pointer;
+        color: #666; }
+  body header {
+    width: 100%;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.1);
+    font-size: 16px; }
+    body header div {
+      padding: 10px; }
+      body header div span {
+        margin: 10px; }
+  body #app_title {
+    margin: 30px auto 10px auto;
+    width: 200px;
+    text-align: center; }
+  body #app_title a {
+    color: #446f9e;
+    font-size: 100px;
+    text-decoration: none; }
+  body #base_wrap {
+    margin: 10px auto 40px auto;
+    width: 100%; }
+    body #base_wrap .todo_list_wrap {
+      position: relative;
+      display: block;
+      margin: 0 auto;
+      width: 550px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+      background: #fff; }
+      body #base_wrap .todo_list_wrap .todo_input_wrap {
+        padding: 0px 10px; }
+        body #base_wrap .todo_list_wrap .todo_input_wrap [type="checkbox"] {
+          display: block;
+          float: left;
+          width: 35px;
+          height: 40px;
+          opacity: 0; }
+        body #base_wrap .todo_list_wrap .todo_input_wrap .allcheck {
+          position: absolute;
+          display: block;
+          float: left;
+          padding: 0px;
+          margin: 20px 10px 0px 5px;
+          width: 18px;
+          height: 20px;
+          border: 1px solid transparent;
+          overflow: hidden; }
+          body #base_wrap .todo_list_wrap .todo_input_wrap .allcheck div {
+            margin-top: -12px;
+            margin-left: -3px;
+            width: 20px;
+            height: 20px;
+            border-right: 4px solid #999;
+            border-bottom: 4px solid #999;
+            transform: rotate(35deg) skewX(-20deg); }
+        body #base_wrap .todo_list_wrap .todo_input_wrap .allcheck:hover {
+          cursor: pointer; }
+        body #base_wrap .todo_list_wrap .todo_input_wrap [type="checkbox"]:checked + .allcheck > div {
+          border-color: #446f9e; }
+        body #base_wrap .todo_list_wrap .todo_input_wrap label {
+          display: inline-block;
+          padding: 15px; }
+          body #base_wrap .todo_list_wrap .todo_input_wrap label [type="text"] {
+            padding: 0px 0px;
+            width: 458px;
+            border: none;
+            outline: none;
+            font: inherit; }
+      body #base_wrap .todo_list_wrap ul {
+        margin: 0px;
+        padding: 0px; }
+        body #base_wrap .todo_list_wrap ul li {
+          border-top: 1px solid #ebebeb;
+          list-style: none; }
+          body #base_wrap .todo_list_wrap ul li article {
+            position: relative;
+            padding: 0px; }
+            body #base_wrap .todo_list_wrap ul li article [type="checkbox"] {
+              display: block;
+              float: left;
+              width: 30px;
+              opacity: 0; }
+            body #base_wrap .todo_list_wrap ul li article .check {
+              position: absolute;
+              display: block;
+              float: left;
+              margin: 10px 10px 0px 10px;
+              width: 30px;
+              height: 30px;
+              border: 1px solid #ebebeb;
+              border-radius: 30px; }
+            body #base_wrap .todo_list_wrap ul li article .check:before {
+              content: '';
+              display: block;
+              margin: 7px 0px 0px 7px;
+              width: 15px;
+              height: 10px;
+              border-left: 1px solid #ebebeb;
+              border-bottom: 1px solid #ebebeb;
+              transform: rotate(-45deg); }
+            body #base_wrap .todo_list_wrap ul li article .check:hover {
+              cursor: pointer; }
+            body #base_wrap .todo_list_wrap ul li article [type="checkbox"]:checked + .check {
+              border: 1px solid #446f9e; }
+            body #base_wrap .todo_list_wrap ul li article [type="checkbox"]:checked + .check:before {
+              border-left-color: #446f9e;
+              border-bottom-color: #446f9e; }
+            body #base_wrap .todo_list_wrap ul li article input {
+              display: none;
+              margin-left: 14px;
+              padding: 13px 10px;
+              width: 475px;
+              font: inherit;
+              font-size: 24px;
+              outline: 1px solid #ebebeb;
+              word-break: break-all; }
+            body #base_wrap .todo_list_wrap ul li article .content {
+              margin: 0px 0px 0px 50px;
+              padding: 13px;
+              width: 420px;
+              min-height: 20px;
+              background: transparent; }
+              body #base_wrap .todo_list_wrap ul li article .content label {
+                word-break: break-all; }
+            body #base_wrap .todo_list_wrap ul li article .content.completed label {
+              color: #ebebeb;
+              text-decoration: line-through; }
+            body #base_wrap .todo_list_wrap ul li article .editing {
+              display: none; }
+            body #base_wrap .todo_list_wrap ul li article .editing + input {
+              display: block; }
+            body #base_wrap .todo_list_wrap ul li article .editing + .check:before {
+              display: none; }
+            body #base_wrap .todo_list_wrap ul li article .delete {
+              position: absolute;
+              display: none;
+              right: 10px;
+              bottom: 10px;
+              width: 20px;
+              height: 20px; }
+            body #base_wrap .todo_list_wrap ul li article .delete:before {
+              content: '';
+              display: block;
+              margin-top: 10px;
+              width: 20px;
+              height: 1px;
+              background: #b83f45;
+              transform: rotate(45deg); }
+            body #base_wrap .todo_list_wrap ul li article .delete:after {
+              content: '';
+              display: block;
+              margin-top: -1px;
+              width: 20px;
+              height: 1px;
+              background: #b83f45;
+              transform: rotate(-45deg); }
+            body #base_wrap .todo_list_wrap ul li article .delete:hover {
+              cursor: pointer; }
+            body #base_wrap .todo_list_wrap ul li article .delete:hover:before, body #base_wrap .todo_list_wrap ul li article .delete:hover:after {
+              background: #E54A50; }
+      body #base_wrap .todo_list_wrap .todo_footer {
+        padding: 10px;
+        height: 16px;
+        border-top: 1px solid #ebebeb;
+        font-size: 12px;
+        letter-spacing: 1px; }
+        body #base_wrap .todo_list_wrap .todo_footer #clearCompleted {
+          display: none;
+          float: right; }
+        body #base_wrap .todo_list_wrap .todo_footer #clearCompleted:hover {
+          cursor: pointer;
+          text-decoration: underline; }
+        body #base_wrap .todo_list_wrap .todo_footer dl {
+          position: relative;
+          margin: -20px auto 0px auto;
+          width: 170px; }
+          body #base_wrap .todo_list_wrap .todo_footer dl dt, body #base_wrap .todo_list_wrap .todo_footer dl dd {
+            display: inline-block;
+            margin: 1px;
+            padding: 2px 5px; }
+          body #base_wrap .todo_list_wrap .todo_footer dl dd {
+            border: 1px solid #fff;
+            border-radius: 4px; }
+          body #base_wrap .todo_list_wrap .todo_footer dl dd:hover {
+            cursor: pointer;
+            border-color: #ebebeb; }
+          body #base_wrap .todo_list_wrap .todo_footer dl dd.on {
+            border-color: #446f9e; }
+    body #base_wrap .frm_login, body #base_wrap .frm_join {
+      margin: 0 auto;
+      padding: 30px;
+      width: 330px;
+      background: #fff;
+      font-size: 16px !important; }
+      body #base_wrap .frm_login div, body #base_wrap .frm_join div {
+        margin: 0px;
+        width: 330px;
+        min-height: 40px;
+        padding: 0px 0px 20px 0px; }
+      body #base_wrap .frm_login div:last-child, body #base_wrap .frm_join div:last-child {
+        padding-bottom: 0px; }
+      body #base_wrap .frm_login input, body #base_wrap .frm_join input {
+        padding: 10px;
+        width: 310px;
+        border: 1px solid #ebebeb;
+        outline: none;
+        font: inherit; }
+      body #base_wrap .frm_login span, body #base_wrap .frm_join span {
+        display: inline-block;
+        margin: 10px 0px 0px 5px;
+        color: #446f9e;
+        font-weight: 400; }
+      body #base_wrap .frm_login span:hover, body #base_wrap .frm_join span:hover {
+        text-decoration: underline; }
+      body #base_wrap .frm_login button, body #base_wrap .frm_join button {
+        float: right; }
+      body #base_wrap .frm_login .login_error, body #base_wrap .frm_join .login_error {
+        display: none; }
+        body #base_wrap .frm_login .login_error span, body #base_wrap .frm_join .login_error span {
+          color: #f00; }
+      body #base_wrap .frm_login span.error, body #base_wrap .frm_join span.error {
+        display: block;
+        color: #f00;
+        font-size: 12px; }
+    body #base_wrap .frm_join button {
+      display: block;
+      float: none;
+      margin: 15px auto 0px auto; }

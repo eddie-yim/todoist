@@ -1,0 +1,21 @@
+{
+    "require": {
+        "doctrine/orm": "^2.5",
+        "doctrine/dbal": "^2.5",
+        "silex/silex": "~2.0",
+        "symfony/yaml": "^2.5",
+        "twig/twig": "~1.0",
+        "symfony/validator": "^3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Practice\\": "src/Practice"
+        }
+    },
+    "scripts": {
+        "run": [
+            "",
+            "php -S localhost:8080"
+        ]
+    }
+}

@@ -1,0 +1,41 @@
+---
+- name: Add MariaDB Reposiotry
+  become: yes
+  apt_repository: repo='deb http://ftp.utexas.edu/mariadb/repo/10.1/ubuntu xenial main' state=present
+
+- name: Add Key for MariaDB Repository
+  become: yes
+  apt_key: keyserver=keyserver.ubuntu.com id=0xF1656F24C74CD1D8
+
+- name: Update apt
+  become: yes
+  apt: update_cache=yes
+
+- name: mariadb | Install MariaDB Packages
+  become: yes
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - mariadb-server
+    - python-mysqldb
+
+- name: mariadb | Update root password for all root accounts
+  mysql_user: name=root host={{ item }} check_implicit_admin=yes password={{ mariadb.root_password }} login_user=root login_password={{ mariadb.root_password }}
+  with_items:
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+- name: mariadb | Ensure anonymous users are not in the database
+  mysql_user: name='' host={{ item }} state=absent login_user=root login_password={{ mariadb.root_password }}
+  with_items:
+    - localhost
+
+- name: mariadb | Create databases
+  mysql_db: name={{ mariadb.database }} state=present login_user=root login_password={{ mariadb.root_password }}
+
+- name: mariadb | Import dump
+  mysql_db: name={{ mariadb.database }} state=import login_user=root login_password={{ mariadb.root_password }} target=/vagrant/{{ mariadb.dump }}
+  when: mariadb.dump
+
+- name: mariadb | Create users
+  mysql_user: name={{ mariadb.user }} password={{ mariadb.password }} priv={{ mariadb.database }}.*:ALL state=present login_user=root login_password={{ mariadb.root_password }}

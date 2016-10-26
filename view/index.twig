@@ -1,0 +1,293 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" href="/static/styles/public/main.css">
+	<script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
+	<script>
+	$(function(){
+		{% for message in app.session.getFlashBag.get('message') %}
+		showMessage('{{ message }}', true);
+		{% endfor %}
+	});
+
+	function showMessage(message, autoClose) {
+		$('.layer_alert')
+			.find('#message')
+			.html(message)
+			.parents('.layer_alert')
+			.show()
+			.promise()
+			.done(function(){
+				if (autoClose) {
+					setTimeout(closeMessage, 3000);
+				}
+			});
+	}
+
+	function closeMessage() {
+		$('.layer_alert').hide();
+	}
+
+	{% if app.session.get('user') %}
+
+	$(function(){
+		$('#todo').on('keyup', function(e){
+			var key = e.which || e.keyCode, content = $(this).val();
+
+			if (key === 13) {
+				if (!$('#todo').val() || !$('#todo').val().trim().length) {
+					return;
+				}
+
+				createTodo(content);
+			}
+		});
+
+		$('.content').on('dblclick', function(){
+			$(this).addClass('editing');
+		});
+
+		$('#statusList > dd').on('click', function(){
+			var status = $(this).attr('data-id');
+
+			if (status) {
+				$('#todos > li').each(function(){
+					if ($(this).attr('data-status') == status) {
+						$(this).show();
+					} else {
+						$(this).hide();
+					}
+				});
+			} else {
+				$('#todos > li').show();
+			}
+
+			$('#statusList > dd').removeClass('on');
+
+			$(this).addClass('on');
+		});
+	});
+
+	function createTodo(content) {
+		$.ajax({
+			url: '/todos/',
+			data: { content : content },
+			method: 'POST',
+			dataType: 'html'
+		}).done(function(data){
+			$('#todos')
+				.append(data)
+				.promise()
+				.done(function(){
+					$('#todo').updateCallback().val('');
+				});
+		}).fail(function(xhr, status, err){
+			showMessage('저장 중 에러가 발생했습니다');
+		});
+	}
+
+	function editTodo(elem) {
+		$(elem)
+			.addClass('editing')
+			.siblings('input')
+			.focus();
+	}
+
+	function blurTodo(elem) {
+		$(elem)
+			.siblings('.content')
+			.removeClass('editing');
+	}
+
+	function updateTodo(elem, id) {
+		var listElem = $(elem).parents('li'),
+		status = $(elem).is(':checked') ? 'C' : 'A',
+		content = $(elem).parents('article').find('.content > label').text();
+
+		$.ajax({
+			url: '/todos/' + id,
+			data: {
+				status: status,
+				content: content
+			},
+			method: 'PUT',
+			dataType: 'html'
+		}).done(function (data) {
+			listElem
+				.replaceWith(data)
+				.updateCallback();
+		}).fail(function (xhr, status, err) {
+			var previousStatus = !listElem.find('[type=checkbox]').is(':checked');
+
+			listElem
+				.replaceWith(listElem)
+				.promise()
+				.done(function(){
+					listElem
+						.find('[type=checkbox]')
+						.prop('checked', previousStatus);
+
+					showMessage('저장 중 에러가 발생했습니다');
+				});
+		});
+	}
+
+	function editApplyTodo(elem, id) {
+		var key = event.which || event.keyCode;
+
+		if (key === 13) {
+			var listElem = $(elem).parents('li'),
+			status = listElem.find('[type=checkbox]').is(':checked') ? 'C' : 'A',
+			content = $(elem).val();
+
+			$.ajax({
+				url: '/todos/' + id,
+				data: {
+					status: status,
+					content: content
+				},
+				method: 'PUT',
+				dataType: 'html'
+			}).done(function (data) {
+				listElem
+					.replaceWith(data)
+					.updateCallback();
+			}).fail(function (xhr, status, err) {
+				listElem
+					.replaceWith(listElem)
+					.promise()
+					.done(function(){
+						showMessage('저장 중 에러가 발생했습니다');
+					});
+			});
+		}
+	}
+
+	function deleteTodo(elem, id) {
+		$.ajax({
+			url: '/todos/' + id,
+			method: 'DELETE',
+			dataType: 'json'
+		}).done(function (data) {
+			if (data.result == 'ok') {
+				$(elem)
+					.parents('li')
+					.remove()
+					.updateCallback();
+			}
+		}).fail(function (xhr, status, err) {
+			showMessage('삭제 중 에러가 발생했습니다');
+		});
+	}
+
+	function deleteTodos() {
+		$.ajax({
+			url: '/todos/',
+			method: 'delete',
+			dataType: 'json'
+		}).done(function(data){
+			location.reload();
+		}).fail(function(xhr, status, err){
+			showMessage('삭제 중 에러가 발생했습니다');
+		});
+	}
+
+	function mouseOverTodo(elem) {
+		$(elem).find('.delete').show();
+	}
+
+	function mouseOutTodo(elem) {
+		$(elem).find('.delete').hide();
+	}
+
+	$.fn.updateCallback = function() {
+		var count = $('#todos').find('li[data-status="A"]').length,
+		text = ' items left';
+
+		if ($('#todos > li').length > count) {
+			$('#clearCompleted').show();
+		} else {
+			$('#clearCompleted').hide();
+		}
+
+		if (count == 0) {
+			count = 'No';
+		} else if (count == 1) {
+			text = ' item left';
+		}
+
+		$('#count').text(count + text);
+
+		return $(this);
+	};
+
+	{% endif %}
+	</script>
+	{% block script %}
+	{% endblock %}
+</head>
+<body>
+	<section class="layer_alert">
+		<div class="dim"></div>
+		<div class="message">
+			<p id="message">
+			</p>
+			<span id="closeLayerAlert" onclick="closeMessage();">close</span>
+		</div>
+	</section>
+	<header>
+	{% if app.session.get('user') %}
+	<div style="width:50%;height:40px;float:right;text-align:right">
+		<span>{{ app.session.get('user').email }}</span>
+		<span><strong>{{ app.session.get('user').name }}</strong></span>
+		<span><a href="/account/logout" style="font-size:12px;font-style: italic">LOGOUT</a></span>
+	</div>
+	{% endif %}
+	</header>
+	<section id="app_title">
+		<a href="/">todos</a>
+	</section>
+	<section id="base_wrap">
+		{% block content %}
+		<div class="todo_list_wrap">
+			<div class="todo_input_wrap">
+				<input type="checkbox" id="allcheck">
+				<label for="allcheck" class="allcheck">
+					<div></div>
+				</label>
+				<label>
+					<input type="text" placeholder="무엇을 하시겠어요?" id="todo"/>
+				</label>
+			</div>
+			<ul id="todos">
+				{% for todo in todos %}
+				<li data-status="{{ todo.status }}" data-id="{{ todo.id }}">
+					<article onmouseover="mouseOverTodo(this);" onmouseout="mouseOutTodo(this);">
+						<input type="checkbox" id="{{ todo.id }}" {% if todo.isCompleted %}checked{% endif %} onclick="updateTodo(this, {{ todo.id }});">
+						<label for="{{ todo.id }}" class="check"></label>
+						<p class="content {% if todo.isCompleted %}completed{% endif %}" ondblclick="editTodo(this);">
+						<label>{{ todo.content }}</label>
+						</p>
+						<input type="text" value="{{ todo.content }}" onblur="blurTodo(this);" onkeyup="editApplyTodo(this, {{ todo.id }});"/>
+						<div class="delete" onclick="deleteTodo(this, {{ todo.id }});"></div>
+					</article>
+				</li>
+				{% endfor %}
+			</ul>
+			<div class="todo_footer">
+				<span id="count">{{ remains_count }}</span>
+				<span id="clearCompleted" onclick="deleteTodos();" {% if total_count > remains_count %}style="display:inline"{% endif %}>Clear completed</span>
+				<dl id="statusList">
+					<dd data-id="" class="on">All</dd>
+					<dd data-id="A">Active</dd>
+					<dd data-id="C">Completed</dd>
+				</dl>
+			</div>
+		</div>
+		{% endblock %}
+	</section>
+	<footer>
+
+	</footer>
+</body>
+</html>
